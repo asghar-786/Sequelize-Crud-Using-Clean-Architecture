@@ -1,4 +1,4 @@
-const {GetDataFromRepo,DataFromRepo,UserDelFromRepo,UserFindFromRepo,UpdateUserFromRepo}=require("../Repositories/repositories")
+const {GetDataFromRepo,DataFromRepo,UserDelFromRepo,UserFindFromRepo,UpdateUserFromRepo,SignupFromRepo,LoginFromRepo}=require("../Repositories/repositories")
 
 const GetDataFromService=async()=>{
     try{
@@ -57,11 +57,39 @@ const UpdateDataFromService=async(UserID,ReqBody)=>{
 
     }
 }
+const SignupDataFromService=async(username,password)=>{
+    try{
+        const createData=await SignupFromRepo(username,password);
+        return createData;
+}
+catch(error){
+    console.log('Error in Service of SignupDataFromService');
+console.error(error);
+    
+}
+
+}
+
+const LoginDataFromService=async(username,password)=>{
+    try{
+        const createData=await LoginFromRepo(username,password);
+        return createData;
+}
+catch(error){
+    console.log('Error in Service of LoginDataFromService');
+console.error(error);
+    
+}
+
+}
+
 
 module.exports={
     GetDataFromService,
     CreateDataFromService,
     UserdelFromService,
     FindUSerInService,
-    UpdateDataFromService
+    UpdateDataFromService,
+    SignupDataFromService,
+    LoginDataFromService
 }

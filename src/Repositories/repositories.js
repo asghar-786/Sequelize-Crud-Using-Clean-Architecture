@@ -1,5 +1,6 @@
 const { where } = require("sequelize");
 const User=require("../Models/user")
+const sequelize=require("../InfraStructure/psqlconnetion")
  const GetDataFromRepo=async()=>{
     try{
         const UserData = await User.findAll();  
@@ -74,11 +75,49 @@ const UpdateUserFromRepo=async(UserID,ReqBody)=>{
     }
 }
 
+const SignupFromRepo=async(SignupUser)=>{
+    try{
+        const data=await User.create(SignupUser);
+        return data;
+
+    }
+    catch(error){
+        console.log("Error in Repository of SignupFromRepo");
+        console.error(error);
+
+    }
+}
+const LoginFromRepo = async (username, password) => {
+    try {
+const user = await User.findOne({ where: { username,password }});
+
+        console.log("UserData",user)
+        console.log("Password ",password)
+        if (user) {
+            
+            if (user.password === password) {
+                return "Login Successfully";
+            } else {
+                return "Password is Incorrect";
+            }
+        } else {
+            return "User Not Found";
+        }
+    } catch (error) {
+        console.log("Error in Repository of LoginFromRepo");
+        console.error(error);
+        throw error; // Rethrow the error for handling further up in the application
+    }
+};
+
+
 
 module.exports={
     GetDataFromRepo,
     DataFromRepo,
     UserDelFromRepo,
     UserFindFromRepo,
-    UpdateUserFromRepo
+    UpdateUserFromRepo,
+    SignupFromRepo,
+    LoginFromRepo
 }

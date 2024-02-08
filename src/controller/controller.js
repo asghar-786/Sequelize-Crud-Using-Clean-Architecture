@@ -1,5 +1,5 @@
 const User = require("../Models/user");
-const {GetDataFromService,CreateDataFromService,UserdelFromService,FindUSerInService,UpdateDataFromService }=require("../service/service")
+const {GetDataFromService,CreateDataFromService,UserdelFromService,FindUSerInService,UpdateDataFromService,SignupDataFromService ,LoginDataFromService}=require("../service/service")
 
 const GEtdata=async (req,reply)=>{
     try{
@@ -141,10 +141,77 @@ const UserUpdate=async(req,reply)=>{
     }
 }
 
+const Signup=async(req,reply)=>{
+    try{
+        const username=req.body;
+        const password=req.body;
+        const createData=await SignupDataFromService(username,password);
+        if(createData){
+            reply.send({
+                code:200,
+                status:"success",
+                data:createData,
+
+            })
+        }
+        else{
+            reply.send({
+                code:200,
+                status:"User Not Found",
+            })
+        }
+    }
+    catch(error){
+        console.log("Error in Signup In Controller");
+        console.error(error);
+
+        reply.send({
+            code:400,
+            status:"failed",
+        })
+
+    }
+
+}
+
+const Login=async(req,reply)=>{
+    try{
+        const {username,password}=req.body;
+        const createData=await LoginDataFromService(username,password);
+        if(createData){
+            reply.send({
+                code:200,
+                status:"success",
+                data:createData,
+
+            })
+        }
+        else{
+            reply.send({
+                code:200,
+                status:"User Not Found",
+            })
+        }
+    }
+    catch(error){
+        console.log("Error in CreateDAta In Controller");
+        console.error(error);
+
+        reply.send({
+            code:400,
+            status:"failed",
+        })
+
+    }
+}
+
 module.exports={
     GEtdata,
     CreateData,
     DeleteUser,
     GetUserByID,
-    UserUpdate
+    UserUpdate,
+    Signup,
+    Login,
+    
 }
